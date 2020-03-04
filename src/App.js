@@ -1,34 +1,51 @@
-import React from 'react';
+import React from "react";
 import UserList from './components/UserList/UserList';
-import UserExpanded from './components/UserExpanded/UserExpanded';
+import UserCreation from './components/UserCreation/UserCreation';
 import {
   BrowserRouter as Router,
-  Redirect,
   Switch,
   Route,
 } from "react-router-dom";
+import { ModalProvider } from "react-modal-hook";
 
 import './App.css';
+import { Navbar as BaseNavBar, NavbarBrand, Container } from 'reactstrap';
+import styled from 'styled-components';
 
-function App() {
+
+const Navbar = styled(BaseNavBar)`
+  padding-bottom: 1em;
+`;
+
+const App = () => {
+
   return (
-    <Router>
-      <div>
-        <Redirect
-          from="/"
-          to="/home" />
-        <Switch>
-          <Route
-            path="/home"
-            component={UserList} />
-          <Route
-            exact
-            path="/users/:id"
-            component={UserExpanded} />
-        </Switch>
-      </div>
-    </Router>
+    <>
+      <Navbar color="light" light>
+        <NavbarBrand
+          href="https://www.linkedin.com/in/hectorhiad/"
+          className="mr-auto">
+          React Test - Hector Alcazar
+    </NavbarBrand>
+      </Navbar>
+      <Container>
+        <Router>
+          <ModalProvider>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={UserList} />
+              <Route
+                path="/add"
+                component={UserCreation} />
+            </Switch>
+          </ModalProvider>
+        </Router >
+      </Container>
+    </>
   );
+
 }
 
 export default App;

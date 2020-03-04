@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import User from '../User/User'
+import User from '../User/User';
 import styled from 'styled-components';
-import { fetch, mapperUsers } from '../../utils/utils';
+import { fetch } from '../../utils/utils';
+import { Button as BaseButton, Table, } from 'reactstrap';
+import {
+      Link,
+} from "react-router-dom";
 
 
-const Root = styled.a`
-    color: blue;
+const H5 = styled.h5`
+      padding-top: 2em;
 `;
 
+
+const Button = styled(BaseButton)`
+  margin-bottom: 2em;
+`;
 
 const UserList = ({
       className,
@@ -17,9 +25,8 @@ const UserList = ({
       const gettingUsers = async () => {
             try {
                   //TODO: Use env var to url
-                  const { data } = await fetch('https://api.github.com/users');
-                  const users = mapperUsers(data);
-                  setData(users.slice(0, 5));
+                  const { data } = await fetch('https://my-json-server.typicode.com/sgcis/codetest/persons');
+                  setData(data);
             } catch (err) {
                   //TODO: Handle errors
                   console.log(err);
@@ -31,20 +38,38 @@ const UserList = ({
       }, []);
 
       return (
-            <Root
-                  className={className}
-            >
-                  {data.map((user) => (
-                        <User
-                              {...user}
-                              onClickAction={
-                                    () => {
-                                          
-                                    }
-                              }
-                        />
-                  ))}
-            </Root>
+            <>
+                  <H5>Person List</H5>
+                  <Link to={"/add"}>
+                        <Button>Add new person</Button>
+                  </Link>
+                  <Table
+                        className={className}
+                  >
+                        <thead>
+                              <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Actions</th>
+                                    <th>Modal</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              {data.map((user) => (
+                                    <User
+                                          key={user.Id}
+                                          {...user}
+                                          onEditAction={
+                                                () => {
+
+                                                }
+                                          }
+                                    />
+                              ))}
+                        </tbody>
+                  </Table>
+            </>
       )
 };
 
