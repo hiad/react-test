@@ -1,18 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Formik, Field, ErrorMessage } from 'formik';
-import { Button, Form as BaseForm, FormGroup } from 'reactstrap';
+import { Button, FormGroup } from 'reactstrap';
+import {
+      Form,
+      H5,
+} from './StyledComponents';
 import {
       Link,
 } from "react-router-dom";
 
-const Form = styled(BaseForm)`
-      padding-top: 2em;
-`;
-
-const H5 = styled.h5`
-      padding-top: 2em;
-`;
 
 const UserCreation = ({
       className,

@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import User from '../User/User';
-import styled from 'styled-components';
 import { fetch } from '../../utils/utils';
-import { Button as BaseButton, Table, } from 'reactstrap';
+import { Table } from 'reactstrap';
 import {
       Link,
 } from "react-router-dom";
+import {
+      H5,
+      Button,
+} from './StyledComponents';
 
-
-const H5 = styled.h5`
-      padding-top: 2em;
-`;
-
-
-const Button = styled(BaseButton)`
-  margin-bottom: 2em;
-`;
 
 const UserList = ({
       className,
