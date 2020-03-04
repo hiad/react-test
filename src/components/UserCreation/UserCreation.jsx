@@ -40,11 +40,20 @@ const UserCreation = ({
 
                               return errors;
                         }}
-                        onSubmit={(values, { setSubmitting }) => {
-                              setTimeout(() => {
-                                    alert(JSON.stringify(values, null, 2));
+                        onSubmit={async (values, { setSubmitting, resetForm }) => {
+                              const { status } = await fetch('https://my-json-server.typicode.com/sgcis/codetest/persons', {
+                                    method: 'POST',
+                                    body: JSON.stringify(values),
+                                    headers: {
+                                          "Content-type": "application/json; charset=UTF-8"
+                                    }
+                              });
+                              if (status === 201) {
+                                    setSubmitting(true);
+                                    resetForm({});
+                              } else {
                                     setSubmitting(false);
-                              }, 400);
+                              }
                         }}
                   >
                         {({

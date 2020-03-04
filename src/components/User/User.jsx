@@ -9,25 +9,28 @@ import {
 import { useModal } from "react-modal-hook";
 import { Bar } from 'react-chartjs-2';
 
-const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+
+const arrayValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const randomArray = () => arrayValues.map(() => Math.random() * arrayValues.length);
+const gettingData = () => ({
+      labels: ['', '', '', '', '', '', ''],
       datasets: [
             {
-                  label: 'My First dataset',
-                  backgroundColor: 'rgba(255,99,132,0.2)',
-                  borderColor: 'rgba(255,99,132,1)',
+                  label: 'Show Dates Here',
+                  backgroundColor: 'rgba(0,230,200,1)',
+                  borderColor: 'rgba(0,102,0,1)',
                   borderWidth: 1,
-                  hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                  hoverBorderColor: 'rgba(255,99,132,1)',
-                  data: [65, 59, 80, 81, 56, 55, 40]
+                  hoverBackgroundColor: 'rgba(0,230,132,1)',
+                  hoverBorderColor: 'rgba(0,102,0,1)',
+                  data: randomArray(),
             }
       ]
-};
+});
 
 const DICTIONARY_TYPE_PERSON = {
+      //TODO: add more type of persons
       "1": 'Teacher',
       "2": 'Student',
-      //TODO: add more type of persons
 };
 
 const User = ({
@@ -44,7 +47,7 @@ const User = ({
                   <ModalHeader toggle={hideModal}>{name} {age}</ModalHeader>
                   <ModalBody>
                         <Bar
-                              data={data}
+                              data={gettingData()}
                               width={500}
                               height={500}
                               options={{
