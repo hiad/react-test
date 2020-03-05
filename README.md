@@ -4,6 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `yarn install`
+
+To install all dependencies.
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />
@@ -22,7 +26,12 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Launches the storybook> http://localhost:9009.
 
 
-
+Tecnologies used: 
+- React 
+- Storybook
+- React strap
+- React Formik
+- React Testing Library
 
 
 ### Developed by Hector Alcazar
