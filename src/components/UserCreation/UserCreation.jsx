@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, ErrorMessage } from 'formik';
-import { Button, FormGroup } from 'reactstrap';
+import { Label, Button, FormGroup } from 'reactstrap';
 import {
       Form,
       H5,
@@ -11,17 +11,29 @@ import {
 
 
 const UserCreation = ({
-      className,
-      id,
-      name,
-      age,
+      location,
 }) => {
+
+      const {
+            state = {}
+      } = location;
+      const {
+            id = 0,
+            name = '',
+            age = '',
+            personTypeId = 1,
+      } = state;
+      const [errorMessage, setErrorMessage] = useState('');
 
       return (
             <>
-                  <H5>Create Person</H5>
+                  <H5>{
+                        (location.state) ?
+                              "Edit Person" :
+                              "Create Person"
+                  }</H5>
                   <Formik
-                        initialValues={{ id: '', name: '', age: '' }}
+                        initialValues={{ id, name, age, personTypeId }}
                         validate={values => {
                               const errors = {};
                               if (!values.id) {
@@ -37,17 +49,26 @@ const UserCreation = ({
                               return errors;
                         }}
                         onSubmit={async (values, { setSubmitting, resetForm }) => {
-                              const { status } = await fetch('https://my-json-server.typicode.com/sgcis/codetest/persons', {
-                                    method: 'POST',
-                                    body: JSON.stringify(values),
-                                    headers: {
-                                          "Content-type": "application/json; charset=UTF-8"
+                              try {
+                                    let method = 'POST';
+                                    if (location.state) {
+                                          method = 'PUT';
                                     }
-                              });
-                              if (status === 201) {
-                                    setSubmitting(true);
-                                    resetForm({});
-                              } else {
+                                    const { status } = await fetch('https://my-json-server.typicode.com/sgcis/codetest/persons', {
+                                          method,
+                                          body: JSON.stringify(values),
+                                          headers: {
+                                                "Content-type": "application/json; charset=UTF-8"
+                                          }
+                                    });
+                                    if (status === 201) {
+                                          setSubmitting(true);
+                                          resetForm({});
+                                    } else {
+                                          throw status;
+                                    }
+                              } catch (status) {
+                                    setErrorMessage(status);
                                     setSubmitting(false);
                               }
                         }}
@@ -80,11 +101,18 @@ const UserCreation = ({
                                           </Link>
                                           {' '}
                                           <Button type="submit" disabled={isSubmitting}>Save</Button>
+                                          {errorMessage && <Label> Error {errorMessage}</Label>}
                                     </Form>
                               )}
                   </Formik>
             </>
       );
+};
+
+UserCreation.defaultProps = {
+      location: {
+            state: {},
+      },
 };
 
 export default UserCreation;

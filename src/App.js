@@ -20,7 +20,7 @@ const Navbar = styled(BaseNavBar)`
 const App = () => {
 
   return (
-    <>
+    <Router>
       <Navbar color="light" light>
         <NavbarBrand
           href="https://www.linkedin.com/in/hectorhiad/"
@@ -29,21 +29,19 @@ const App = () => {
     </NavbarBrand>
       </Navbar>
       <Container>
-        <Router>
-          <ModalProvider>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                component={UserList} />
-              <Route
-                path="/add"
-                component={UserCreation} />
-            </Switch>
-          </ModalProvider>
-        </Router >
+        <ModalProvider>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={UserList} />
+            <Route
+              path="/add"
+              component={UserCreation} />
+          </Switch>
+        </ModalProvider>
       </Container>
-    </>
+    </Router >
   );
 
 }

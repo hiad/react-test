@@ -7,25 +7,10 @@ import {
       ModalFooter,
 } from 'reactstrap';
 import { useModal } from "react-modal-hook";
-import { Bar } from 'react-chartjs-2';
-
-
-const arrayValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const randomArray = () => arrayValues.map(() => Math.random() * arrayValues.length);
-const gettingData = () => ({
-      labels: ['', '', '', '', '', '', ''],
-      datasets: [
-            {
-                  label: 'Show Dates Here',
-                  backgroundColor: 'rgba(0,230,200,1)',
-                  borderColor: 'rgba(0,102,0,1)',
-                  borderWidth: 1,
-                  hoverBackgroundColor: 'rgba(0,230,132,1)',
-                  hoverBorderColor: 'rgba(0,102,0,1)',
-                  data: randomArray(),
-            }
-      ]
-});
+import Graph from '../Graph/Graph';
+import {
+      Link,
+} from "react-router-dom";
 
 const DICTIONARY_TYPE_PERSON = {
       //TODO: add more type of persons
@@ -42,18 +27,29 @@ const User = ({
 }) => {
       const typeString = DICTIONARY_TYPE_PERSON[personTypeId];
 
+      const onDelete = async (id) => {
+            try {
+                  const { status } = await fetch('https://my-json-server.typicode.com/sgcis/codetest/persons', {
+                        method: 'DELETE',
+                        body: id,
+                        headers: {
+                              "Content-type": "application/json; charset=UTF-8"
+                        }
+                  });
+                  alert("You delete student", id);
+                  if (status !== 201) {
+                        throw status;
+                  }
+            } catch (status) {
+                  console.log('error', status);
+            }
+      };
+
       const [showModal, hideModal] = useModal(() => (
             <Modal isOpen className={className}>
                   <ModalHeader toggle={hideModal}>{name} {age}</ModalHeader>
                   <ModalBody>
-                        <Bar
-                              data={gettingData()}
-                              width={500}
-                              height={500}
-                              options={{
-                                    maintainAspectRatio: false
-                              }}
-                        />
+                        <Graph personId={name} />
                   </ModalBody>
                   <ModalFooter>
                         <Button color="secondary" onClick={hideModal}>Ok</Button>
@@ -69,14 +65,24 @@ const User = ({
                   <td>{name}</td>
                   <td>{age}</td>
                   <td>
-                        <Button>Edit</Button>
+                        <Link to={{
+                              pathname: "/add",
+                              state: {
+                                    id,
+                                    name,
+                                    age,
+                                    personTypeId,
+                              }
+                        }}>
+                              <Button>Edit</Button>
+                        </Link>
                         {' '}
-                        <Button>Delete</Button>
+                        <Button onClick={onDelete}>Delete</Button>
                   </td>
                   <td>
                         {typeString === 'Student' && <Button onClick={showModal}>X</Button>}
                   </td>
-            </tr>
+            </tr >
       );
 };
 

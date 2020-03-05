@@ -50,15 +50,10 @@ const UserList = ({
                               </tr>
                         </thead>
                         <tbody>
-                              {data.map((user) => (
+                              {data.map((user, idx) => (
                                     <User
-                                          key={user.Id}
+                                          key={idx}
                                           {...user}
-                                          onEditAction={
-                                                () => {
-
-                                                }
-                                          }
                                     />
                               ))}
                         </tbody>
